@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution India</title>
+</head>
+<body>
+    <div id="main_div" >
+        <div id="sub_div" style="background-color: white;">
+            <center><h1 style="color:brown; margin: 5%;">Solution India</h1></center>
+
+            <form id="signupform" method="POST">
+                {% csrf_token %}
+
+                <div class="form_element_cls">
+                        <input type="number" placeholder="Mobile No" style="margin: 1%; width: 40%; border-radius: 5px; height: 25px; " required name="user_mobile"><br>
+                        <input id="pass" type="password" placeholder="Password" style="margin: 1%; width: 40%; border-radius: 5px; height: 25px; " required name="user_password"><br>
+                        <input id="c_pass" type="text" placeholder="Confirm Password" style="margin: 1%; width: 40%; border-radius: 5px; height: 25px; " required name="user_confirm_password">
+
+                </div>
+                <div class="form_element_cls">
+                    <br>
+                    <button id="signup_btn" type="button" onclick=check_pass() style="background-color: royalblue;color: white;width: 20%; height: 30px;border: none; border-radius: 5px;">
+                        signup
+                    </button>
+                    <br>
+                    <br>
+                    {% if user_already_exist %}
+                        <b>User Already Exist, Please signin !!</b>
+                    {% elif user_created %}
+                        <b>User Successfully Created !!</b>
+                    {% endif %}
+                    <b id="ref_b"></b>
+
+                    <script>
+                        function check_pass(){
+                            console.log("hellooo")
+                            pass=document.getElementById("pass").value
+                            c_pass=document.getElementById("c_pass").value
+                            if (pass == c_pass && pass !=""){
+        
+                                form=document.getElementById("signupform")
+                                form.submit()
+                            }else{
+                                create_ele=document.createElement("p")
+                                create_ele.innerHTML="Password Mismatch"
+                                document.getElementById("ref_b").appendChild(create_ele)
+
+                            }
+                        }
+                    </script>
+                    <br><br><br>
+                    <a href="/login" style="font-size: 20px;">Login</a>
+                    <br><br><br><br>
+                </div>
+            </form>
+        </div>
+    </div>
+    <style>
+        *{
+            margin: 0px;
+        }
+        #main_div{
+            height: 100vh;
+            text-align:center;
+            position: relative;
+            background: linear-gradient(#e66465, #9198e5);}
+        #sub_div{
+            position: absolute;  
+            width: 40%;    
+            top: 28%;   
+            left: 30%;
+            text-align: center;
+        }
+
+    </style>
+</body>
+</html>

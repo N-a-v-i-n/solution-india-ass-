@@ -1,0 +1,397 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+    <title>Solution India</title>
+</head>
+<body>
+    <div id="close_btn" style="position: absolute;  top: -203%; right: 23%; z-index: 1; background-color: red; width: 30px; height: 28px; border-radius: 5px;">
+        <b style="font-size: 25px;color:  white; margin: 6px;">X</b>
+    </div>
+    <div id="pop_up_div" style="position: absolute; top: -202.5%; left: 22.5%; width: 55%;height: 55%; background-color: white; text-align: center;border-radius: 10px;">
+       <button id="ask_query" class="query_btns" >Ask Quesion</button>
+       &nbsp;&nbsp;&nbsp;&nbsp;
+       <button id="create_post" class="query_btns">Create Post</button>
+    </div>
+    <script>
+
+        create_post_pressedd=document.getElementById("create_post").addEventListener("click",()=>{
+            var ref_div=document.getElementById("pop_up_div")
+            while (ref_div.firstChild){
+                ref_div.removeChild(ref_div.firstChild)
+            }
+
+            create_text_area=document.createElement("input")
+            create_text_area.id="ask_query_space1"
+            create_text_area.placeholder="Share your throughts..."
+
+            create_ele_upload=document.createElement("input")
+            create_ele_upload.type="file"
+            create_br1=document.createElement("br")
+            create_ele_upload.id="upload_file"
+            create_ele_upload.required=true
+
+            create_post_query11=document.createElement("button")
+            create_post_query11.id="ask_btn1112"
+            create_br=document.createElement("br")
+            create_post_query11.innerHTML="POST"
+            ref_div.appendChild(create_text_area)
+            ref_div.appendChild(create_br1)
+            ref_div.appendChild(create_ele_upload)
+            ref_div.appendChild(create_br)
+            ref_div.appendChild(create_post_query11)    
+            
+            create_post_query11.onclick=function send_data(){
+                if (document.getElementById("ask_query_space1").value != "" && document.getElementById("upload_file").value != ""  ){
+                    query_ques= new FormData()
+                    var file = document.querySelector('input[type="file"]')
+                    console.log(file.files[0])
+                    query_ques.append("question_asked",document.getElementById("ask_query_space1").value)
+                    query_ques.append("post_image",file.files[0])
+
+                    fetch("/posts/",{
+                        method:"POST",
+                        body:query_ques
+                }).then(res => res.text())
+                    .then(data => {
+                        if (data=="success"){
+                        window.location.reload()
+                        }
+                    })
+            
+                }else{
+                    alert("Question/file cannot be empty.")
+                }
+            
+            }
+            
+        })
+
+
+
+        document.getElementById("ask_query").addEventListener("click",()=>{
+            var ref_div=document.getElementById("pop_up_div")
+            while (ref_div.firstChild){
+                ref_div.removeChild(ref_div.firstChild)
+            }
+
+            create_text_area=document.createElement("input")
+            create_text_area.id="ask_query_space"
+            create_text_area.placeholder='Start your question with "What", "How", "Why", etc.'
+
+            create_post_query1=document.createElement("button")
+            create_post_query1.id="ask_btn111"
+            create_br=document.createElement("br")
+            create_post_query1.innerHTML="ASK"
+            ref_div.appendChild(create_text_area)
+            ref_div.appendChild(create_br)
+            ref_div.appendChild(create_post_query1)
+
+            create_post_query1.onclick=function send_data(){
+                if (document.getElementById("ask_query_space").value != ""){
+                    query_ques= new FormData()
+                    query_ques.append("question_asked",document.getElementById("ask_query_space").value)
+                    fetch("/posts/",{
+                        method:"POST",
+                        body:query_ques
+                }).then(res => res.text())
+                    .then(data => {
+                        if (data=="success"){
+                        window.location.reload()
+                        
+                        }
+                    })
+                
+                }else{
+                    alert("Question cannot be empty.")
+                }
+            
+            }
+            
+
+
+        })
+
+        close_pop_up=document.getElementById("close_btn").addEventListener("click",()=>{
+            document.getElementById("close_btn").style="display:none"
+            document.getElementById("pop_up_div").style="display:none"
+            window.location.reload()
+        })
+    </script>
+    <style>
+        #upload_file{
+            margin-top: 2%;
+            margin-left: 6%;
+        }
+        #ask_query_space{
+            width: 80%;
+            height: 10%;
+            margin-top: 15%;
+            font-size: 15px;
+
+
+
+        }
+
+        #ask_query_space1{
+            width: 80%;
+            height: 10%;
+            margin-top: 15%;
+            font-size: 15px;
+
+
+        }
+        #ask_btn111{
+            margin-top: 2%;
+            width: 100px; 
+            height: 40px; 
+            border-radius: 10px; 
+            font-size: 13px; 
+            background-color: royalblue; 
+            color: white;   
+            border: none;
+            cursor: pointer;
+        
+        }
+        #ask_btn1112{
+            margin-top: 2%;
+            width: 100px; 
+            height: 40px; 
+            border-radius: 10px; 
+            font-size: 13px; 
+            background-color: royalblue; 
+            color: white;   
+            border: none;
+            cursor: pointer;
+        
+        }
+        .query_btns{
+            margin-top: 22.5%;
+             width: 150px; 
+             height: 50px; 
+             border-radius: 10px; 
+             font-size: 20px; 
+             background-color: royalblue; 
+             color: white; 
+             border:none;
+        }
+        .query_btns:hover{
+            background-image: linear-gradient(to right, black,red);
+            cursor: pointer;
+        }
+        body{
+            margin:0px;
+            padding: 0px;
+            background-color: lightgray;
+        }
+    </style>
+    
+    <div>
+        <div style="background-color: aliceblue; height:50px;">
+            <h1 style="margin:0px;padding: 0px; color: brown; margin-left: 15%;padding: 5px;">Solution India</h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="logout" value="logout" hidden>
+                <button id="logout_btn"  type="submit" onclick=logout() style="position: absolute; top: 1%; right: 10%;height: 35px; width: 100px; border:none"><b>Logout</b></button>
+            </form>
+            <style>
+                #logout_btn:hover{
+                    background-color: red;
+                    color: white;
+                    cursor: pointer;
+                }
+            </style>
+            <script>
+                function logout(){
+                    
+                }
+            </script>
+        </div>
+        <div>
+            <button id="post_query" style="margin: 10px 25% 0px 25% ;padding: 10px; width: 50%; border-radius: 50px; font-size: 20px; border:none">Want to post your question ?</button>
+        </div>
+        <style>
+            #post_query:hover{
+                background-color:royalblue;
+                color: white;
+
+            }
+        </style>
+        <script>
+
+            var post_query= document.getElementById("post_query").addEventListener("click",()=>{
+                document.getElementById("close_btn").style="position: absolute;  top: 23%; right: 23%; z-index: 1; background-color: red; width: 30px; height: 28px; border-radius: 5px;"
+                recreate=document.getElementById("pop_up_div")
+                recreate.style="position: absolute; top: 22.5%; left: 22.5%; width: 55%;height: 55%; background-color: white; text-align: center;border-radius: 10px;"
+                
+            })
+        </script>
+        {% for x in posts %}
+        {% for y in x.values %}
+        
+        <div style="background-color: aliceblue;margin: 10px 25%; padding: 20px;">
+           
+            <div style="display: flex;">
+                <img src="/static/upload_profile_pic.jpeg" style="width:40px;height: 40px;border-radius: 50px; " alt="profile pic">
+                <div>
+                    <h4 style="margin: 2px 10px;">{{y.0.post_details}}</h4>
+                    <p style="margin: 2px 10px;text-align: end; font-size: smaller; color: gray;">posted at <time>{{y.0.post_details.created_at}}</time></p>
+                </div>
+              
+            </div>
+           <p>
+            {{y.0.post_details.post_content}}
+           </p>
+           <center>{% if y.0.post_details.post_image %}<img src="/media/{{y.0.post_details.post_image}}" height="450px" alt="post not loaded">{% endif %}</center>
+           <br>
+           {% if y.0.is_user_liked_the_post %}
+           <button id="dislike_btn{{y.0.post_details.id}}" onclick=temp3(id) style="margin: 5px 0px 10px 10px;">Dislike {{y.0.no_of_likes}}</button>
+           {% else %}
+           <button id="like_btn{{y.0.post_details.id}}" onclick=temp2(id) style="margin: 5px 0px 10px 10px;">Like <i class="fa fa-thumbs-o-up"></i> {{y.0.no_of_likes}}</button>
+            {% endif %}
+           <button  id="{{y.0.post_details.id}}" onclick=temp(id) style="margin: 5px 0px 10px 10px;">comment {{y.0.no_of_comments}}</button>
+           <br>
+           {% if y.0.last_three_comments %}
+            <div style="width:95%; background-color: whitesmoke;padding:2%; border-radius: 5px;">
+                
+                {% for x in y.0.last_three_comments %}
+                <div style="display: flex; ">
+                    <img src="/static/upload_profile_pic.jpeg" style="width:20px;height: 20px;border-radius: 50px; " alt="profile pic">
+                <b style="margin-left: 5px;margin-top:2px;">{{x}}</b>
+                </div>
+                <p style="margin-left: 3.5%;margin-top: 1px;">{{x.text}}</p>
+                {% endfor %}
+            
+                <script>
+                    function temp2(id){
+                // like_pressed=document.getElementById(id).addEventListener("click",()=>{
+                var request_url="http://127.0.0.1:8000/likes/"
+                var data=new FormData() 
+                data.append("post_id",id)
+
+                fetch(request_url,{
+                    method:"POST",
+                    body:data
+                }).then(res => res.text())
+                    .then(data => {
+                        if (data=="success"){
+                        window.location.reload()
+                        
+                        }
+                    })
+            
+        
+            // })
+            }
+
+
+            function temp3(id){
+                // like_pressed=document.getElementById(id).addEventListener("click",()=>{
+                var request_url="http://127.0.0.1:8000/dislike/"
+                var data=new FormData() 
+                data.append("post_id",id)
+
+                fetch(request_url,{
+                    method:"POST",
+                    body:data
+                }).then(res => res.text())
+                    .then(data => {
+                        if (data=="success"){
+                        window.location.reload()
+                        
+                        }
+                    })
+            
+        
+            // })
+            }
+                </script>
+
+            
+           </div>
+           {% endif %}
+           <br>
+           <div id="+{{y.0.post_details.id}}"  style="display: flex;">
+            
+           </div>
+           
+          
+        </div>
+        {% endfor %}
+        {% endfor%}
+
+
+        <script>
+            function temp(id){
+                ref_btn=document.getElementById(id)
+                ref_btn.disabled=true
+                create_textarea_field=document.createElement("textarea")
+
+                create_post_btn=document.createElement("button")
+                create_textarea_field.style="width:80%"
+                create_textarea_field.id="note"
+                create_post_btn.style="width:100px;height:40px"
+                create_post_btn.innerHTML="POST"
+
+                create_cancel_btn=document.createElement("button")
+                create_cancel_btn.style="width:50px;height:40px;color:red;font-weight:600"
+                create_cancel_btn.innerHTML="X"
+                create_cancel_btn.id="cancel_btn_pressed"
+
+                document.getElementById("+"+id).appendChild(create_textarea_field)
+                document.getElementById("+"+id).appendChild(create_post_btn)
+                document.getElementById("+"+id).appendChild(create_cancel_btn)
+
+                cancel_pressed=document.getElementById("cancel_btn_pressed").addEventListener("click",()=>{
+                    ref_btn=document.getElementById(id)
+                    ref_btn.disabled=false
+                    const element = document.getElementById("+"+id);
+                    while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
+            })
+                create_post_btn.onclick=function(){
+                    var get_comment_text=document.getElementById("note").value
+                    if (get_comment_text == ""){
+                        alert("Please add your comment !!")
+                    }else{
+
+                    ref_btn=document.getElementById(id)
+                    ref_btn.disabled=false
+                    const element = document.getElementById("+"+id);
+                    while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                    }
+                    
+
+                    var data=new FormData()
+                    data.append("comment_data",get_comment_text)
+                    data.append("post_id",id)
+
+                    fetch("http://127.0.0.1:8000/comments/",{
+                        method:'POST',
+                        body:data
+                    }).then(res => res.text())
+                    .then(data => {
+                        if (data=="success"){
+                        window.location.reload()
+                        }
+                    })
+                    }
+            }
+            
+            }
+            
+           </script>
+    </div>
+
+
+
+</body>
+</html>

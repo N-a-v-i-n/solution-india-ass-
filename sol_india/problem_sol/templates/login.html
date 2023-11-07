@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution India</title>
+</head>
+<body>
+    <div id="main_div">
+        <div id="sub_div" style="background-color: white;">
+            <center><h1 style="color:brown; margin: 5%;">Solution India</h1></center>
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <div class="form_element_cls">
+                        <input type="text" placeholder="Mobile No" style="margin: 1%; width: 40%; border-radius: 5px; height: 25px; " name="mobile_no"><br>
+                        <input type="password" placeholder="Password" style="margin: 1%; width: 40%; border-radius: 5px; height: 25px;" name="user_password">
+                </div>
+                <div class="form_element_cls">
+                    <br>
+                    <button type="submit" style="background-color: royalblue;color: white;width: 20%; height: 30px;border: none; border-radius: 5px;">
+                        Login
+                    </button>
+                    <br>
+                    {% if login is not true %}
+                        Wrong Credentials
+                    {% endif %}
+                    <br><br><br>
+
+                    <a href="/signup" style="font-size: 20px;">Signup</a>
+                    <br><br><br>
+
+                
+                </div>
+               
+            </form>
+        </div>
+    </div>
+    <style>
+        *{
+            margin: 0px;
+        }
+        #main_div{
+            height: 100vh;
+            text-align:center;
+            position: relative;
+            background: linear-gradient(#e66465, #9198e5);}
+        #sub_div{
+            position: absolute;  
+            width: 40%;    
+            top: 30%;   
+            left: 30%;
+            text-align: center;
+        }
+
+    </style>
+   
+</body>
+</html>
